@@ -13,6 +13,7 @@ class Volunteer(db.Model):
     description = db.Column(db.Text, nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    home_id = db.Column(db.Integer, db.ForeignKey('children_homes.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def serialize(self):
@@ -24,6 +25,7 @@ class Volunteer(db.Model):
             "childrens_home": self.childrens_home,
             "description": self.description,
             "user_id": self.user_id,
+            "home_id": self.home_id,
             "created_at": self.created_at.isoformat()
         }
 

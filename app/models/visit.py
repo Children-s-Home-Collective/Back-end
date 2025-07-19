@@ -12,6 +12,7 @@ class Visit(db.Model):
     number_of_visits = db.Column(db.Integer, default=1, nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    home_id = db.Column(db.Integer, db.ForeignKey('children_homes.id'), nullable=False)
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -23,5 +24,6 @@ class Visit(db.Model):
             "day_to_visit": self.day_to_visit.isoformat(),
             "number_of_visits": self.number_of_visits,
             "user_id": self.user_id,
+            "home_id": self.home_id,
             "created_at": self.created_at.isoformat()
         }
