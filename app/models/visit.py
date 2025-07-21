@@ -9,7 +9,7 @@ class Visit(db.Model):
     full_name = db.Column(db.String(100), nullable=False)
     phone_number = db.Column(db.String(20), nullable=False)
     day_to_visit = db.Column(db.Date, nullable=False)
-    number_of_visits = db.Column(db.Integer, default=1, nullable=False)
+    number_of_visitors = db.Column(db.Integer, default=1, nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     home_id = db.Column(db.Integer, db.ForeignKey('children_homes.id'), nullable=False)
@@ -22,7 +22,7 @@ class Visit(db.Model):
             "full_name": self.full_name,
             "phone_number": self.phone_number,
             "day_to_visit": self.day_to_visit.isoformat(),
-            "number_of_visits": self.number_of_visits,
+            "number_of_visitors": self.number_of_visitors,
             "user_id": self.user_id,
             "home_id": self.home_id,
             "created_at": self.created_at.isoformat()
