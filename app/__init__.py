@@ -26,6 +26,8 @@ def create_app():
     from app.controllers.auth_controller import auth_bp
     from app.controllers.donation_controller import donation_bp
     from app.controllers.children_home_controller import home_bp
+    from app.controllers.admin_controller import admin_bp
+
 
     app.register_blueprint(volunteer_bp)
     app.register_blueprint(review_bp)
@@ -34,6 +36,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(donation_bp)
     app.register_blueprint(home_bp)
+    app.register_blueprint(admin_bp)
 
    
     @app.route('/')
