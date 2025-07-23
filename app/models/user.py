@@ -25,11 +25,5 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "email": self.email,
-            "role": self.role,
-            "created_at": self.created_at.isoformat()
-        }
+    def __repr__(self):
+     return f"<User #{self.id}: {self.name} ({self.role})>"

@@ -16,14 +16,8 @@ class Visit(db.Model):
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "full_name": self.full_name,
-            "phone_number": self.phone_number,
-            "day_to_visit": self.day_to_visit.isoformat(),
-            "number_of_visitors": self.number_of_visitors,
-            "user_id": self.user_id,
-            "home_id": self.home_id,
-            "created_at": self.created_at.isoformat()
-        }
+    def __repr__(self):
+     return (
+        f"<Visit #{self.id}: {self.full_name} visiting home {self.home_id} "
+        f"on {self.day_to_visit.strftime('%Y-%m-%d')}>"
+    )
