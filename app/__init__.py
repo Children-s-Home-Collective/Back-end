@@ -1,20 +1,29 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
+from flask_migrate import Migrate
+from flask_marshmallow import Marshmallow
+from flask_limiter import Limiter
+from flask_limiter_util import get_remote_address
 from flask_cors import CORS
+from .config import Config
 
 db = SQLAlchemy()
 jwt = JWTManager()
+ma = Marshmallow()
+migrate=Migrate()
+limiter= Limiter(key_func = get_remote_address)
+
 
 def create_app():
     app = Flask(__name__)
 
-    
-    app.config['SQLALCHEMY_DATABASE_URI'] = ''  
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['JWT_SECRET_KEY'] = ''  
+    app.config.from_object(Config)
 
     db.init_app(app)
+    migrate.init_app(db, app)
+    ma.init_app(app)
+    limiter.init_app(app)
     jwt.init_app(app)
     CORS(app)
 
