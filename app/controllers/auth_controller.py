@@ -21,8 +21,9 @@ def login():
     access_token = create_access_token(identity=user.id)
     return jsonify({
         "access_token": access_token,
+        "token_type": "Bearer",
         "user": user.serialize()
-    })
+    }), 200 
 
 @auth_bp.route('/profile', methods=['GET'])  
 @jwt_required()
