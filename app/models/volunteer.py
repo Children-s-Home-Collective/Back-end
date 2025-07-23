@@ -16,18 +16,11 @@ class Volunteer(db.Model):
     home_id = db.Column(db.Integer, db.ForeignKey('children_homes.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "phone_number": self.phone_number,
-            "email": self.email,
-            "childrens_home": self.childrens_home,
-            "description": self.description,
-            "user_id": self.user_id,
-            "home_id": self.home_id,
-            "created_at": self.created_at.isoformat()
-        }
+    def __repr__(self):
+     return (
+        f"<Contact #{self.id}: {self.name} ({self.childrens_home}) - user {self.user_id}>"
+    )
+
 
 
 

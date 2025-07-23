@@ -14,12 +14,6 @@ class Review(db.Model):
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "rating": self.rating,
-            "comment": self.comment,
-            "user_id": self.user_id,
-            "home_id": self.home_id,
-            "created_at": self.created_at.isoformat()
-        }
+def __repr__(self):
+    return f"<Review #{self.id}: {self.rating}★ by user {self.user_id} on home {self.home_id}>"
+

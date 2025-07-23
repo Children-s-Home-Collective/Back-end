@@ -19,13 +19,5 @@ class ChildrenHome(db.Model):
     reviews = db.relationship('Review', backref='children_home', lazy=True)
     visits = db.relationship('Visit', backref='children_home', lazy=True)
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "location": self.location,
-            "phone_number": self.phone_number,
-            "email": self.email,
-            "description": self.description,
-            "created_at": self.created_at.isoformat()
-        }
+    def __repr__(self):
+     return f"<Home #{self.id}: {self.name} at {self.location}>"

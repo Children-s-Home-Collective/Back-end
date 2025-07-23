@@ -14,12 +14,5 @@ class Donation(db.Model):
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "amount": self.amount,
-            "donation_type": self.donation_type,
-            "user_id": self.user_id,
-            "home_id": self.home_id,
-            "created_at": self.created_at.isoformat()
-        }
+    def __repr__(self):
+        return f"<Donation #{self.id}: {self.amount} {self.donation_type} from user {self.user_id}>"
