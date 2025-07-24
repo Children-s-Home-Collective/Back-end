@@ -1,0 +1,11 @@
+flask 
+flask-migrate 
+flask-limiter
+flask-marshmallow 
+flask-sqlalchemy
+flask-jwt-extended 
+python-dotenv 
+marshmallow-sqlalchemy
+sqlalchemy 
+flask-cors 
+psycopg2-binary 

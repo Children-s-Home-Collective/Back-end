@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from app import db
 from flask_jwt_extended import create_access_token
 from werkzeug.security import generate_password_hash
-from models.user import User
+from app.models.user import User
 from app.utils.constants import TRUSTED_ADMIN_DOMAINS
 user_bp = Blueprint('user_bp', __name__, url_prefix='/users')
 

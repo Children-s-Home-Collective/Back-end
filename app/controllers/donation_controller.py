@@ -1,12 +1,13 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from app.models import db, Donation
+from app import db
+from app.models.donation import Donation
 from app.schemas.donation_schema import donation_schema, donation_list_schema
 from app.utils.decorators import admin_required
 from sqlalchemy import func
 
 
-donation_bp = Blueprint('donation_bp', __name__, url_prefix="donations")
+donation_bp = Blueprint('donation_bp', __name__, url_prefix="/donations")
 
 @donation_bp.route('/', methods=['POST'])
 @jwt_required()
