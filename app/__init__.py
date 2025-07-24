@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
 from flask_limiter import Limiter
-from flask_limiter_util import get_remote_address
+from flask_limiter.util import get_remote_address
 from flask_cors import CORS
 from .config import Config
 
@@ -21,7 +21,7 @@ def create_app():
     app.config.from_object(Config)
 
     db.init_app(app)
-    migrate.init_app(db, app)
+    migrate.init_app(app, db)
     ma.init_app(app)
     limiter.init_app(app)
     jwt.init_app(app)
@@ -51,5 +51,14 @@ def create_app():
     @app.route('/')
     def home():
         return {"message": "Welcome to the API"}
+
+
+    from app.models.user import User
+    from app.models.volunteer import Volunteer
+    from app.models.donation import Donation
+    from app.models.visit import Visit
+    from app.models.review import Review
+    from app.models.children_home import ChildrenHome, Child, Photo
+
 
     return app

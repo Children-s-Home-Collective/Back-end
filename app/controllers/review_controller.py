@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app import db
-from models.review import review  
+from app.models.review import Review  
 
 review_bp = Blueprint('reviews', __name__, url_prefix='/reviews')
 

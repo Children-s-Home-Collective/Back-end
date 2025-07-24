@@ -13,6 +13,8 @@ flask-jwt-extended = "*"
 python-dotenv = "*"
 marshmallow-sqlalchemy = "*"
 sqlalchemy = "*"
+flask-cors = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 

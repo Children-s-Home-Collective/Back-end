@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from app import db
-from models.volunteer import Volunteer
+from app.models.volunteer import Volunteer
 
 volunteer_bp = Blueprint('volunteers', __name__, url_prefix='/volunteers')
 
