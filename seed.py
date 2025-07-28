@@ -1,5 +1,5 @@
 import random
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from app import db, create_app
 from werkzeug.security import generate_password_hash
 from app.models.user import User  # Adjust import based on your project structure
@@ -187,7 +187,7 @@ def seed_database():
                 email=home_data['email'],
                 description=home_data['description'],
                 images=home_data['images'],
-                created_at=datetime.utcnow()
+                created_at=datetime.now(timezone.utc)
             )
             db.session.add(home)
             home_id_mapping[home_data['name']] = home.id
