@@ -40,11 +40,11 @@ class ChildrenHome(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     
-    donations = db.relationship('Donation', lazy=True)
-    reviews = db.relationship('Review', lazy=True)
-    visits = db.relationship('Visit', lazy=True)
-    children = db.relationship(Child, lazy=True, cascade='all, delete-orphan')
-    photos = db.relationship(Photo, lazy=True, cascade='all, delete-orphan')
+    donations = db.relationship('Donation', lazy=True, cascade='all, delete-orphan')
+    reviews = db.relationship('Review', lazy=True, cascade='all, delete-orphan')
+    visits = db.relationship('Visit', lazy=True, cascade='all, delete-orphan')
+    children = db.relationship('Child', lazy=True, cascade='all, delete-orphan')
+    photos = db.relationship('Photo', lazy=True, cascade='all, delete-orphan')
 
     @property
     def images(self):
