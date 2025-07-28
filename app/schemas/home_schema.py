@@ -48,17 +48,15 @@ class ChildrenHomeSchema(SQLAlchemySchema):
     created_at = auto_field(dump_only=True)
 
     
-    images = fields.List(fields.Str(), required=True)
-
-   
+    images = fields.List(fields.Str(), required=True)   
     children_names = fields.List(fields.Str(), required=True)
 
   
     donations = fields.Nested("DonationSchema", many=True, dump_only=True)
     reviews = fields.Nested("ReviewSchema", many=True, dump_only=True)
     visits = fields.Nested("VisitSchema", many=True, dump_only=True)
-    children = fields.Nested(ChildSchema, many=True, dump_only=True)
-    photos = fields.Nested(PhotoSchema, many=True, dump_only=True)
+    children = fields.Nested(ChildSchema, many=True, required=True)
+    photos = fields.Nested(PhotoSchema, many=True, required=True)
 
 
 child_schema = ChildSchema()
