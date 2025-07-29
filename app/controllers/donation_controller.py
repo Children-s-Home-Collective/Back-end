@@ -21,14 +21,14 @@ def create_donation():
     db.session.add(donation)
     db.session.commit()
 
-    return donation_schema.jsonify(donation), 201
+    return jsonify(donation_schema.dump(donation)), 201
 
 @donation_bp.route('/', methods=['GET'])
 @jwt_required()
 @admin_required
 def get_all_donations():
     donations = Donation.query.all()
-    return donation_list_schema.jsonify(donations), 200
+    return jsonify(donation_list_schema.dump(donations)), 200
 
 @donation_bp.route('/total', methods=['GET'])
 def get_total_donations():

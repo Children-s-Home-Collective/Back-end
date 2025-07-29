@@ -7,11 +7,12 @@ class VisitSchema(SQLAlchemySchema):
         model= Visit
         load_instance= True
         include_relationships= True
+        include_fk = True
 
     id=auto_field(dump_only=True)
 
     full_name=auto_field(required=True)
-    phone_number=auto_field(reqired=True)
+    phone_number=auto_field(required=True)
     day_to_visit=auto_field(required=True)
     number_of_visitors=auto_field(required=True)
 

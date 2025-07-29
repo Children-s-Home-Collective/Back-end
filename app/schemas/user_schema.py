@@ -7,16 +7,24 @@ class UserSchema(SQLAlchemySchema):
     class Meta:
         model = User
         load_instance = True
+        include_fk=True
+        exclude = ["password"]
+
 
     id = auto_field(dump_only=True)
     name = auto_field(required=True)
     
     email = fields.Email(required=True, 
                          validate=validate.Length(max=100))
+    phone_number=fields.Str(validate=validate.Regexp(r"^(?:\+|0)[0-9]{9,12}$"))
     
     password = fields.String(load_only=True, 
                              required=True,
-                             validate=validate.Length(min=8, max=255))
+                            validate=[
+           validate.Length(min=8, error="Password must be at least 8 characters long."),
+           validate.Regexp(r".*[\W_]", error="Password must include at least one special character."),
+           validate.Regexp(r".*[0-9]", error="Password must include at least one digit."),
+        ] )
     
     role = auto_field(dump_only=True)  
     created_at = auto_field(dump_only=True)

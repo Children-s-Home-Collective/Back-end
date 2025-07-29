@@ -3,7 +3,9 @@ from app import db
 from flask_jwt_extended import create_access_token
 from werkzeug.security import generate_password_hash
 from app.models.user import User
+from app.schemas.user_schema import user_schema
 from app.utils.constants import TRUSTED_ADMIN_DOMAINS
+
 user_bp = Blueprint('user_bp', __name__, url_prefix='/users')
 
 @user_bp.route('/register', methods=['POST'])
@@ -41,4 +43,4 @@ def get_user(user_id):
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
-    return jsonify(user.serialize())
+    return jsonify(user_schema.dump(user)), 200
