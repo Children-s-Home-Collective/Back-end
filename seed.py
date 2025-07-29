@@ -186,11 +186,14 @@ def seed_database():
                 phone_number=home_data['phone_number'],
                 email=home_data['email'],
                 description=home_data['description'],
-                images=home_data['images'],
+                # images=home_data['images'],
                 created_at=datetime.now(timezone.utc)
             )
             db.session.add(home)
             home_id_mapping[home_data['name']] = home.id
+        for image_url in home_data['images']:
+            photo = Photo(image_url=image_url, children_home_id=home.id)
+            db.session.add(photo)
 
         # Seed Children (12–17 children per home, IDs auto-increment)
         children_data = []
@@ -230,14 +233,23 @@ def seed_database():
                 children_data.append(child)
 
         for child_data in children_data:
+            first_name, last_name = child_data['name'].split(' ', 1)
             child = Child(
-                name=child_data['name'],
-                age=child_data['age'],
-                gender=child_data['gender'],
-                home_id=child_data['home_id'],
-                created_at=datetime.utcnow()
-            )
-            db.session.add(child)
+    first_name=first_name,
+    last_name=last_name,
+    age=child_data['age'],
+    gender=child_data['gender'],
+    home_id=child_data['home_id'],
+    created_at=datetime.utcnow()
+)
+            # child = Child(
+            #     name=child_data['name'],
+            #     age=child_data['age'],
+            #     gender=child_data['gender'],
+            #     home_id=child_data['home_id'],
+            #     created_at=datetime.utcnow()
+            # )
+            # db.session.add(child)
 
         # Seed Photos (4 photos per home, 32 total, IDs auto-increment)
         photos_data = []
