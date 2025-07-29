@@ -24,11 +24,23 @@ def create_donation():
     return jsonify(donation_schema.dump(donation)), 201
 
 @donation_bp.route('/', methods=['GET'])
-@jwt_required()
-@admin_required
+# @jwt_required()
+# @admin_required
 def get_all_donations():
     donations = Donation.query.all()
-    return jsonify(donation_list_schema.dump(donations)), 200
+    new_donations=[]
+    for y in donations:
+        new={
+            "id":y.id,
+            "amount":y.amount,
+            "donation_type":y.donation_type,
+            "user_id":y.user_id,
+            "home_id":y.home_id,
+            "created_at":y.created_at
+        }
+        new_donations.append(new)
+
+    return jsonify(new_donations), 200
 
 @donation_bp.route('/total', methods=['GET'])
 def get_total_donations():

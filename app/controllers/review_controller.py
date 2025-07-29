@@ -28,7 +28,7 @@ def create_review():
 @review_bp.route('/', methods=['GET'])
 def get_all_reviews():
     reviews = Review.query.all()
-    return review_list_schema.jsonify(reviews), 200
+    return jsonify(reviews), 200
 
 
 
