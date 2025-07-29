@@ -19,7 +19,7 @@ home_bp = Blueprint("home_bp", __name__, url_prefix="/homes")
 # @jwt_required()
 def get_photos_in_home(home_id):
     home = ChildrenHome.query.get_or_404(home_id)
-    photos = Photo.query.filter_by(home_id=home.id).all()
+    photos = Photo.query.filter_by(children_home_id=home.id).all()
 
     return jsonify(photo_list_schema.dump(photos)), 200
 
@@ -185,8 +185,8 @@ def get_children_in_home(id):
 
 
 @home_bp.route("/<int:home_id>/children/<int:child_id>", methods=["GET"])
-@jwt_required()
-@admin_required
+# @jwt_required()
+# @admin_required
 def get_child_record_in_home(home_id, child_id):
     home = ChildrenHome.query.get_or_404(home_id)
 
