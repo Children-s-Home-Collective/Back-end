@@ -28,14 +28,33 @@ def create_review():
 @review_bp.route('/', methods=['GET'])
 def get_all_reviews():
     reviews = Review.query.all()
-    return jsonify(reviews), 200
+    new_reviews=[]
+    for z in reviews:
+        news={
+            "id":z.id,
+            "rating":z.rating,
+            "comment":z.comment,
+            "user_id":z.user_id,
+            "home_id":z.home_id,
+            "created_at":z.created_at
+        }
+        new_reviews.append(news)
+    return jsonify(new_reviews), 200
 
 
 
 @review_bp.route('/<int:review_id>', methods=['GET'])
 def get_review(review_id):
-    review = review.query.get_or_404(review_id)
-    return jsonify(review.serialize()), 200
+    review = Review.query.get_or_404(review_id)
+    new_review={
+            "id":review.id,
+            "rating":review.rating,
+            "comment":review.comment,
+            "user_id":review.user_id,
+            "home_id":review.home_id,
+            "created_at":review.created_at       
+    }
+    return jsonify(new_review), 200
 
 
 

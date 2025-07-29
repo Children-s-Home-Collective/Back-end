@@ -33,18 +33,36 @@ def create_volunteer():
 
 
 @volunteer_bp.route('/', methods=['GET'])
-@jwt_required()
-@admin_required
+# @jwt_required()
+# @admin_required
 def get_all_volunteers():
     volunteers = Volunteer.query.all()
-    return volunteer_list_schema.jsonify(volunteers), 200
+    new_v=[]
+    for t in volunteers:
+        new_volunteer={
+            "id":t.id,
+            "phone_number":t.phone_number,
+            "email":t.email,
+            "description":t.description,
+            "name":t.name,
+        }
+        new_v.append(new_volunteer)
+
+    return jsonify(new_v), 200
 
 
 
 @volunteer_bp.route('/<int:volunteer_id>', methods=['GET'])
 def get_volunteer(volunteer_id):
     volunteer = Volunteer.query.get_or_404(volunteer_id)
-    return volunteer_schema.jsonify(volunteer), 200
+    new_volunteer={
+            "id":volunteer.id,
+            "phone_number":volunteer.phone_number,
+            "email":volunteer.email,
+            "description":volunteer.description,
+            "name":volunteer.name,
+        }
+    return jsonify(new_volunteer), 200
 
 
 

@@ -55,19 +55,43 @@ def create_visit():
 
 
 
-@visitor_bp.route('', methods=['GET'])
-@jwt_required()
-@admin_required
+@visitor_bp.route('/', methods=['GET'])
+# @jwt_required()
+# @admin_required
 def get_all_visitors():
 
     visits = Visit.query.all()
-    return jsonify(visit_list_schema.dump(visits)), 200
+    new_visits=[]
+    for v in visits:
+        n_visit={
+            "id":v.id,
+            "full_name":v.full_name,
+            "phone_number":v.phone_number,
+            "day_to_visit":v.day_to_visit,
+            "number_of_visitors":v.number_of_visitors,
+            "user_id":v.user_id,
+            "home_id":v.home_id,
+        }
+        new_visits.append(n_visit)
+    return jsonify(new_visits), 200
 
 
 @visitor_bp.route('/user/<int:user_id>', methods=['GET'])
-@jwt_required()
-@admin_required
+# @jwt_required()
+# @admin_required
 def get_visitors_by_user(user_id):
 
     visits = Visit.query.filter_by(user_id=user_id).all()
-    return jsonify(visit_list_schema.dump(visits)), 200
+    new_visits=[]
+    for b in visits:
+        n_visit={
+            "id":b.id,
+            "full_name":b.full_name,
+            "phone_number":b.phone_number,
+            "day_to_visit":b.day_to_visit,
+            "number_of_visitors":b.number_of_visitors,
+            "user_id":b.user_id,
+            "home_id":b.home_id,
+        }  
+        new_visits.append(n_visit)
+    return jsonify(new_visits), 200
