@@ -27,15 +27,107 @@ def get_photos_in_home(home_id):
 @home_bp.route("/", methods=["GET"])
 # @jwt_required()
 def get_homes():
-    homes = ChildrenHome.query.all()
-    return jsonify(childrenhome_list_schema.dump(homes)), 200
+    # try:
+    #     homes = ChildrenHome.query.all()
+    #     results = []
+    #     for home in homes:
+    #         print(f"Home: {home.name}, Children type: {type(home.children)}, Children: {home.children}")
+    #         results.append({
+    #             "id": home.id,
+    #             "name": home.name,
+    #             "children": [
+    #                 {
+    #                     "id": child.id,
+    #                     "first_name": child.first_name,
+    #                     "last_name": child.last_name,
+    #                     "age": child.age,
+    #                     "gender": child.gender
+    #                 } for child in home.children
+    #             ]
+    #         })
+    #     return jsonify(results), 200
+    # except Exception as e:
+    #     print(f"Error in get_homes: {str(e)}")
+    #     return jsonify({"error": "An error occurred"}), 500
+    try:
+        homes = ChildrenHome.query.all()
+        results = []
+
+        for home in homes:
+            print(f"Home: {home.name}, Children count: {len(home.children)}, Photos count: {len(home.photos)}")
+
+            home_data = {
+                "id": home.id,
+                "name": home.name,
+                "location": home.location,
+                "phone_number": home.phone_number,
+                "email": home.email,
+                "description": home.description,
+                "created_at": home.created_at.isoformat(),
+                "children": [
+                    {
+                        "id": child.id,
+                        "first_name": child.first_name,
+                        "last_name": child.last_name,
+                        "age": child.age,
+                        "gender": child.gender,
+                        "created_at": child.created_at.isoformat()
+                    } for child in home.children
+                ],
+                "photos": [
+                    {
+                        "id": photo.id,
+                        "image_url": photo.image_url
+                    } for photo in home.photos
+                ]
+            }
+
+            results.append(home_data)
+
+        return jsonify(results), 200
+
+    except Exception as e:
+        print(f"Error in get_homes: {str(e)}")
+        return jsonify({"error": "An error occurred while fetching homes"}), 500
+   
+
+
 
 
 @home_bp.route("/<int:id>", methods=["GET"])
 # @jwt_required()
 def get_home(id):
     home = ChildrenHome.query.get_or_404(id)
-    return jsonify(childrenhome_schema.dump(home)), 200
+    results = []
+    home_data = {
+                "id": home.id,
+                "name": home.name,
+                "location": home.location,
+                "phone_number": home.phone_number,
+                "email": home.email,
+                "description": home.description,
+                "created_at": home.created_at.isoformat(),
+                "children": [
+                    {
+                        "id": child.id,
+                        "first_name": child.first_name,
+                        "last_name": child.last_name,
+                        "age": child.age,
+                        "gender": child.gender,
+                        "created_at": child.created_at.isoformat()
+                    } for child in home.children
+                ],
+                "photos": [
+                    {
+                        "id": photo.id,
+                        "image_url": photo.image_url
+                    } for photo in home.photos
+                ]
+            }
+
+    results.append(home_data)
+
+    return jsonify(results), 200
 
 
 
@@ -73,12 +165,23 @@ def delete_home(id):
 
 
 @home_bp.route("/<int:id>/children", methods=["GET"])
-@jwt_required()
-@admin_required
+# @jwt_required()
+# @admin_required
 def get_children_in_home(id):
     home = ChildrenHome.query.get_or_404(id)
-    children = Child.query.filter_by(home_id=id).all()
-    return jsonify(child_list_schema.dump(children)), 200
+    children = Child.query.filter_by(home_id=home.id).all()
+    results=[]
+    for x in children:
+        new={
+                        "id": x.id,
+                        "first_name": x.first_name,
+                        "last_name": x.last_name,
+                        "age": x.age,
+                        "gender": x.gender,
+                        "created_at": x.created_at.isoformat()
+        },
+        results.append(new)
+    return jsonify(results), 200
 
 
 @home_bp.route("/<int:home_id>/children/<int:child_id>", methods=["GET"])
