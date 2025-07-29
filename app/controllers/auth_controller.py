@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from app.models.user import User
+from app.schemas.user_schema import user_schema 
 from app.utils.auth import get_current_user  
 from app import db
 
@@ -25,7 +26,7 @@ def login():
     return jsonify({
         "access_token": access_token,
         "token_type": "Bearer",
-        "user": user.serialize()
+        "user": user_schema.dump(user)
     }), 200 
 
 @auth_bp.route('/verify-admin', methods=["POST"])
@@ -49,4 +50,4 @@ def get_user_profile():
     user = get_current_user()
     if not user:
         return jsonify({"error": "User not found"}), 404
-    return jsonify(user.serialize())
+    return jsonify(user_schema.dump(user))

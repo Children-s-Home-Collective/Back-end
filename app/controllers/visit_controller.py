@@ -7,6 +7,8 @@ from app import db
 from app.models.visit import Visit
 from app.models.user import User
 from app.models.children_home import ChildrenHome
+from app.schemas.visit_schema import visit_schema, visit_list_schema
+from app.utils.decorators import admin_required
 
 visitor_bp = Blueprint('visitor_bp', __name__, url_prefix='/visitor')
 
@@ -46,7 +48,7 @@ def create_visit():
         )
         db.session.add(new_visit)
         db.session.commit()
-        return jsonify(new_visit.serialize()), 201
+        return jsonify(visit_schema.dump(new_visit)), 201
     except SQLAlchemyError as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
@@ -55,25 +57,17 @@ def create_visit():
 
 @visitor_bp.route('', methods=['GET'])
 @jwt_required()
+@admin_required
 def get_all_visitors():
-    current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
-
-    if not user or user.role != 'admin':
-        return jsonify({"error": "Unauthorized: admin access required"}), 403
 
     visits = Visit.query.all()
-    return jsonify([v.serialize() for v in visits]), 200
+    return jsonify(visit_list_schema.dump(visits)), 200
 
 
 @visitor_bp.route('/user/<int:user_id>', methods=['GET'])
 @jwt_required()
+@admin_required
 def get_visitors_by_user(user_id):
-    current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
-
-    if not user or user.role != 'admin':
-        return jsonify({"error": "Unauthorized: admin access required"}), 403
 
     visits = Visit.query.filter_by(user_id=user_id).all()
-    return jsonify([v.serialize() for v in visits]), 200
+    return jsonify(visit_list_schema.dump(visits)), 200

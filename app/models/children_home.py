@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db
 
 
@@ -9,9 +9,11 @@ class Photo(db.Model):
     image_url = db.Column(db.String(255), nullable=False)
     children_home_id = db.Column(db.Integer, db.ForeignKey('children_homes.id'), nullable=False)
 
+
+
+
     def __repr__(self):
         return f"<Photo #{self.id}: {self.image_url}>"
-
 
 class Child(db.Model):
     __tablename__ = 'children'
@@ -22,10 +24,12 @@ class Child(db.Model):
     age = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.String(10), nullable=False)
     home_id = db.Column(db.Integer, db.ForeignKey('children_homes.id'), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
 
     def __repr__(self):
         return f"<Child #{self.id}: {self.first_name} {self.last_name} ({self.gender}, {self.age})>"
+
 
 
 class ChildrenHome(db.Model):
@@ -37,14 +41,13 @@ class ChildrenHome(db.Model):
     phone_number = db.Column(db.String(20), nullable=True)
     email = db.Column(db.String(100), unique=True, nullable=True)
     description = db.Column(db.Text, nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
-    
-    donations = db.relationship('Donation', lazy=True, cascade='all, delete-orphan')
-    reviews = db.relationship('Review', lazy=True, cascade='all, delete-orphan')
-    visits = db.relationship('Visit', lazy=True, cascade='all, delete-orphan')
-    children = db.relationship('Child', lazy=True, cascade='all, delete-orphan')
-    photos = db.relationship('Photo', lazy=True, cascade='all, delete-orphan')
+    donations = db.relationship('Donation', backref=db.backref('home', lazy=True), lazy=True, cascade='all, delete-orphan')
+    reviews = db.relationship('Review', backref=db.backref('home', lazy=True), lazy=True, cascade='all, delete-orphan')
+    visits = db.relationship('Visit', backref=db.backref('home', lazy=True), lazy=True, cascade='all, delete-orphan')
+    children = db.relationship(Child, backref=db.backref('home', lazy=True), lazy=True, cascade='all, delete-orphan')
+    photos = db.relationship(Photo, backref=db.backref('home', lazy=True), lazy=True, cascade='all, delete-orphan')
 
     @property
     def images(self):
@@ -56,4 +59,3 @@ class ChildrenHome(db.Model):
 
     def __repr__(self):
         return f"<Home #{self.id}: {self.name} at {self.location}>"
-   

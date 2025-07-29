@@ -16,38 +16,38 @@ home_bp = Blueprint("home_bp", __name__, url_prefix="/homes")
 
 
 @home_bp.route("/<int:home_id>/photos", methods=["GET"])
-@jwt_required()
+# @jwt_required()
 def get_photos_in_home(home_id):
     home = ChildrenHome.query.get_or_404(home_id)
-    photos = Photo.query.filter_by(children_home_id=home.id).all()
+    photos = Photo.query.filter_by(home_id=home.id).all()
 
-    return photo_list_schema.jsonify(photos), 200
+    return jsonify(photo_list_schema.dump(photos)), 200
 
 
 @home_bp.route("/", methods=["GET"])
-@jwt_required()
+# @jwt_required()
 def get_homes():
     homes = ChildrenHome.query.all()
-    return childrenhome_list_schema.jsonify(homes), 200
+    return jsonify(childrenhome_list_schema.dump(homes)), 200
 
 
 @home_bp.route("/<int:id>", methods=["GET"])
-@jwt_required()
+# @jwt_required()
 def get_home(id):
     home = ChildrenHome.query.get_or_404(id)
-    return childrenhome_schema.jsonify(home), 200
+    return jsonify(childrenhome_schema.dump(home)), 200
 
 
 
 @home_bp.route("/", methods=["POST"])
-@jwt_required()
+# @jwt_required()
 @admin_required
 def create_home():
     data = childrenhome_schema.load(request.get_json())
     home = ChildrenHome(**data)
     db.session.add(home)
     db.session.commit()
-    return childrenhome_schema.jsonify(home), 201
+    return jsonify(childrenhome_schema.dump(home)), 201
 
 
 @home_bp.route("/<int:id>", methods=["PATCH"])
@@ -59,7 +59,7 @@ def update_home(id):
     for key, value in updates.items():
         setattr(home, key, value)
     db.session.commit()
-    return childrenhome_schema.jsonify(home), 200
+    return jsonify(childrenhome_schema.dump(home)), 200
 
 
 @home_bp.route("/<int:id>", methods=["DELETE"])
@@ -78,7 +78,7 @@ def delete_home(id):
 def get_children_in_home(id):
     home = ChildrenHome.query.get_or_404(id)
     children = Child.query.filter_by(home_id=id).all()
-    return child_list_schema.jsonify(children), 200
+    return jsonify(child_list_schema.dump(children)), 200
 
 
 @home_bp.route("/<int:home_id>/children/<int:child_id>", methods=["GET"])
@@ -91,5 +91,5 @@ def get_child_record_in_home(home_id, child_id):
     if not child:
         return jsonify({"error": "Child not found in this home"}), 404
 
-    return child_schema.jsonify(child), 200
+    return jsonify(child_schema.dump(child)), 200
 

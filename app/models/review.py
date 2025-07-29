@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db 
 
 class Review(db.Model):
@@ -12,8 +12,7 @@ class Review(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     home_id = db.Column(db.Integer, db.ForeignKey('children_homes.id'), nullable=False)
 
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
 def __repr__(self):
-    return f"<Review #{self.id}: {self.rating}★ by user {self.user_id} on home {self.home_id}>"
-
+        return f"<Review #{self.id}: {self.rating}★ by user {self.user_id} on home {self.home_id}>"
