@@ -1,4 +1,6 @@
 Overview
+
+
 The Children's Home Management System is a Flask-based web application designed to manage children's homes, including their details, associated children, photos, donations, reviews, visits, and volunteer registrations. It offers user authentication, admin functionalities, and secure data handling for a non-profit organization supporting children's homes. Built with SQLAlchemy, Flask-JWT-Extended, and Marshmallow, this project emphasizes scalability and security.
 
 Developed collaboratively for a school assignment, it showcases robust API development and best practices.
@@ -15,59 +17,16 @@ Features
 
 Technologies
 - Backend: Flask, Python
-- Database: SQLAlchemy (ORM) with SQLite/PostgreSQL
+- Database: SQLAlchemy (ORM) with PostgreSQL
 - Authentication: Flask-JWT-Extended
 - Serialization: Marshmallow (SQLAlchemySchema)
 - Utilities: Custom decorators for admin and user access
-- Environment: Python 3.8+
+- Environment: Python 3.12.3
 - Dependencies: See requirements.txt
 
 Project Structure
 
-Back-end/
-├── app/
-│   ├── _init_.py
-│   ├── models/
-│   │   ├── _init_.py
-│   │   ├── children_home.py
-│   │   ├── user.py
-│   │   ├── donation.py
-│   │   ├── review.py
-│   │   ├── visit.py
-│   │   └── volunteer.py
-│   ├── schemas/
-│   │   ├── _init_.py
-│   │   ├── home_schema.py
-│   │   ├── user_schema.py
-│   │   ├── donation_schema.py
-│   │   ├── review_schema.py
-│   │   ├── visit_schema.py
-│   │   └── volunteer_schema.py
-│   ├── controllers/
-│   │   ├── _init_.py
-│   │   ├── admin_controller.py
-│   │   ├── auth_controller.py
-│   │   ├── home_controller.py
-│   │   ├── donation_controller.py
-│   │   ├── review_controller.py
-│   │   ├── user_controller.py
-│   │   ├── visitor_controller.py
-│   │   └── volunteer_controller.py
-│   └── config.py
-├── utils/
-│   ├── _init_.py
-│   ├── decorators.py
-│   ├── auth.py
-│   └── constants.py
-├── migrations/
-│   ├── versions/
-│   └── env.py
-├── .env
-├── seed.py
-├── manage.py
-├── render.yaml
-├── requirements.txt
-└── README.md
+<pre> Back-end/ ├── app/ │ ├── __init__.py │ ├── models/ │ │ ├── __init__.py │ │ ├── children_home.py │ │ ├── user.py │ │ ├── donation.py │ │ ├── review.py │ │ ├── visit.py │ │ └── volunteer.py │ ├── schemas/ │ │ ├── __init__.py │ │ ├── home_schema.py │ │ ├── user_schema.py │ │ ├── donation_schema.py │ │ ├── review_schema.py │ │ ├── visit_schema.py │ │ └── volunteer_schema.py │ ├── controllers/ │ │ ├── __init__.py │ │ ├── admin_controller.py │ │ ├── auth_controller.py │ │ ├── home_controller.py │ │ ├── donation_controller.py │ │ ├── review_controller.py │ │ ├── user_controller.py │ │ ├── visitor_controller.py │ │ └── volunteer_controller.py │ └── config.py ├── utils/ │ ├── __init__.py │ ├── decorators.py │ ├── auth.py │ └── constants.py ├── migrations/ │ ├── versions/ │ └── env.py ├── .env ├── seed.py ├── manage.py ├── render.yaml ├── requirements.txt └── README.md </pre>
 
 
 Key Components
@@ -94,7 +53,7 @@ Key Components
 Installation
 1. Clone the Repository:
    bash
-   git clone https://github.com/your-repo/Back-end.git
+   git clone https://github.com/Children-s-Home-Collective/Back-end.git
    cd Back-end
    
 
@@ -303,11 +262,4 @@ Troubleshooting
 - Schema Issues: Ensure id is dump_only=True.
 - Testing: Review logs for 500 errors.
 
-Contributors
-- [Your Name]
-- [Group Member Names]
 
-This is a team effort for a school project. See commit history for details.
-
-License
-For educational use only, not for commercial purposes.
