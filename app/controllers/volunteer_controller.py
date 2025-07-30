@@ -18,8 +18,8 @@ def create_volunteer():
             return jsonify({"error": "No input data", "details": "Request body is empty"}), 400
 
         current_user_id = get_jwt_identity()
-        data['user_id'] = current_user_id
         data.pop('id', None)
+        data.pop('user_id', None)
 
         if not all([data.get('name'), data.get('email'), data.get('phone_number')]):
             return jsonify({"error": "Missing required fields", "details": "name, email, and phone_number are required"}), 400
@@ -28,6 +28,7 @@ def create_volunteer():
             return jsonify({"error": "User not found", "details": f"User ID {current_user_id} does not exist"}), 404
 
         volunteer = volunteer_schema.load(data, session=db.session)
+        volunteer.user_id = current_user_id
         db.session.add(volunteer)
         db.session.commit()
         return jsonify(volunteer_schema.dump(volunteer)), 201
