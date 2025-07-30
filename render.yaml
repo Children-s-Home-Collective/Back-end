@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: flask-app
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:create_app()
+    postdeployCommand: python seed.py
+    envVars:
+      - key: FLASK_ENV
+        value: development
+      - key: SECRET_KEY
+        value: 2187ee45befce7bc8c1d190d450ca074f927168fdd98b7087aa58d5fdef530aa
+      - key: JWT_SECRET_KEY
+        value: 54a187941933a339029b7b1c34f8d9076852c91fb8d0eb14ddd5c8b81ee9974a
+      - key: DATABASE_URL
+        fromDatabase:
+          name: childrens-home-db 
+          property: connectionString
+
+databases:
+  - name: childrens-home-db
+    databaseName: childrens_home_db
+    user: childrens_home_db_user
