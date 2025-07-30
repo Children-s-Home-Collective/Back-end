@@ -4,7 +4,7 @@ from app import db
 class Visit(db.Model):
     __tablename__ = 'visits'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     full_name = db.Column(db.String(100), nullable=False)
     phone_number = db.Column(db.String(20), nullable=False)

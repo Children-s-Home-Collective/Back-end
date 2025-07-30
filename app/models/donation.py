@@ -4,7 +4,7 @@ from app import db
 class Donation(db.Model):
     __tablename__ = 'donations'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     amount = db.Column(db.Float, nullable=False)
     donation_type = db.Column(db.String(20), nullable=False)  

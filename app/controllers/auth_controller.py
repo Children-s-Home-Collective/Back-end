@@ -3,7 +3,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from app.models.user import User
 from app.schemas.user_schema import user_schema 
 from app.utils.auth import get_current_user  
-from app import db
+from marshmallow import ValidationError
 
 
 
@@ -11,39 +11,31 @@ auth_bp = Blueprint('auth_bp', __name__, url_prefix='/auth')
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    email = data.get('email').lower().strip()
-    password = data.get('password')
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "No input data", "details": "Request body is empty"}), 400
 
-    if not all([email, password]):
-        return jsonify({"error": "Missing email or password"}), 400
+        email = data.get('email')
+        password = data.get('password')
 
-    user = User.query.filter_by(email=email).first()
-    if not user or not user.check_password(password):
-        return jsonify({"error": "Invalid email or password"}), 401
+        if not all([email, password]):
+            return jsonify({"error": "Missing required fields", "details": "Email and password are required"}), 400
 
-    access_token = create_access_token(identity=user.id)
-    return jsonify({
-        "access_token": access_token,
-        "token_type": "Bearer",
-        "user": user_schema.dump(user)
-    }), 200 
+        user = User.query.filter_by(email=email).first()
+        if not user or not user.check_password(password):
+            return jsonify({"error": "Invalid credentials", "details": "Email or password is incorrect"}), 401
 
-@auth_bp.route('/verify-admin', methods=["POST"])
-@jwt_required()
-def verify_admin():
-    current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
-
-    data = request.get_json()
-    code = data.get("code")
-
-    if code == "ADMIN123":
-        user.role = "admin"
-        db.session.commit()
-        return jsonify({"message": "Admin access granted."}), 200
-
-    return jsonify({"error": "Invalid verification code."}), 403
+        access_token = create_access_token(identity=user.id)
+        return jsonify({
+            "user": user_schema.dump(user),
+            "access_token": access_token,
+            "type": "Bearer"
+        }), 200
+    except ValidationError as ve:
+        return jsonify({"error": "Validation failed", "details": ve.messages}), 400
+    except Exception as e:
+        return jsonify({"error": "Server error", "details": str(e)}), 500
 @auth_bp.route('/profile', methods=['GET'])  
 @jwt_required()
 def get_user_profile(): 

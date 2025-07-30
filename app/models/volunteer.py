@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 class Volunteer(db.Model):
     __tablename__ = 'volunteers'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)
     phone_number = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(100), nullable=False)

@@ -5,7 +5,7 @@ from app import db
 class Photo(db.Model):
     __tablename__ = 'photos'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     image_url = db.Column(db.String(255), nullable=False)
     children_home_id = db.Column(db.Integer, db.ForeignKey('children_homes.id'), nullable=False)
 
@@ -18,7 +18,7 @@ class Photo(db.Model):
 class Child(db.Model):
     __tablename__ = 'children'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     age = db.Column(db.Integer, nullable=False)
@@ -35,7 +35,7 @@ class Child(db.Model):
 class ChildrenHome(db.Model):
     __tablename__ = 'children_homes'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(100), nullable=False)
     phone_number = db.Column(db.String(20), nullable=True)
