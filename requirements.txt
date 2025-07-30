@@ -9,3 +9,4 @@ marshmallow-sqlalchemy
 sqlalchemy 
 flask-cors 
 psycopg2-binary 
+gunicorn
