@@ -1,10 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db  
 
 class Visit(db.Model):
     __tablename__ = 'visits'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     full_name = db.Column(db.String(100), nullable=False)
     phone_number = db.Column(db.String(20), nullable=False)
@@ -14,7 +14,7 @@ class Visit(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     home_id = db.Column(db.Integer, db.ForeignKey('children_homes.id'), nullable=False)
 
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
      return (

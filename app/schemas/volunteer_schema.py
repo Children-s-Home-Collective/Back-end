@@ -13,7 +13,6 @@ class VolunteerSchema(SQLAlchemySchema):
     name=auto_field(load_only=True, required=True)
     phone_number=auto_field(load_only=True, required=True) 
     email=auto_field(required=True)
-    childrens_home=fields.Nested("ChildrenHomeSchema", dump_only=True)
     description=auto_field(required=True)
 
     user_id=auto_field(dump_only=True)
@@ -23,5 +22,5 @@ class VolunteerSchema(SQLAlchemySchema):
 
     user=fields.Nested("UserSchema", dump_only=True, many=True)
 
-review_schema=VolunteerSchema()
-review_list_schema=VolunteerSchema(many=True)
+volunteer_schema=VolunteerSchema()
+volunteer_list_schema=VolunteerSchema(many=True)
