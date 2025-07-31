@@ -45,7 +45,8 @@ def seed_database():
         User(id=13, name="Mia Lee", email="mia.lee@gmail.com", phone_number="+254 713 333 333", role="user", created_at=datetime.now(timezone.utc)),
         User(id=14, name="Noah Clark", email="noah.clark@gmail.com", phone_number="+254 714 444 444", role="user", created_at=datetime.now(timezone.utc)),
         User(id=15, name="Olivia Walker", email="olivia.walker@gmail.com", phone_number="+254 715 555 555", role="user", created_at=datetime.now(timezone.utc)),
-        User(id=16, name="Lavender Morara", email="lavender.morara@student.moringaschool.com", phone_number="+254 716 666 666", role="admin", created_at=datetime.now(timezone.utc))
+        User(id=16, name="Lavender Morara", email="lavender.morara@student.moringaschool.com", phone_number="+254 716 666 666", role="admin", created_at=datetime.now(timezone.utc)),
+        User(id=17, name="Arnold Maruti", email="arnold.maruti@gmail.com", phone_number="+254 723 104 181", role="admin", created_at=datetime.now(timezone.utc))
     ]
 
     # Set passwords
@@ -66,6 +67,7 @@ def seed_database():
         users[13].set_password("N0ah!777")
         users[14].set_password("Ol1v1a!888")
         users[15].set_password("AdminPass!999")
+        users[16].set_password("Arnold!444")
     except Exception as e:
         print(f"Error setting passwords: {e}")
         return
