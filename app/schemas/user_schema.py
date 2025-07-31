@@ -31,7 +31,7 @@ class UserSchema(SQLAlchemySchema):
 
     review=fields.Nested("ReviewSchema", many=True, dump_only=True)
     home=fields.Nested("ChildrenHomeSchema", many=True, dump_only=True)
-    donation=fields.Nested("DonationSchema", many=True, dump_only=True)
+    donation=fields.Nested("DonationSchema", many=True, dump_only=True ,exclude=("user",))
     visit=fields.Nested("VisitSchema", many=True, dump_only=True)
     volunteer=fields.Nested("VolunteerSchema", many=True, dump_only=True)
 
