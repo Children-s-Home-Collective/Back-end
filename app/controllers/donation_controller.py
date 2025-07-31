@@ -64,3 +64,23 @@ def get_total_donations():
         return jsonify({"total_donations": total}), 200
     except Exception as e:
         return jsonify({"error": "Server error", "details": str(e)}), 500
+    
+@donation_bp.route('/home/<int:home_id>', methods=['GET'])
+@jwt_required()
+def get_donations_by_home(home_id):
+    try:
+        donations = Donation.query.filter_by(home_id=home_id).all()
+
+        result = [
+            {
+                "id": d.id,
+                "amount": d.amount,
+                "donation_type": d.donation_type,
+                "user_id": d.user_id,
+                "home_id": d.home_id,
+                "created_at": d.created_at.isoformat()
+            } for d in donations
+        ]
+        return jsonify(result), 200
+    except Exception as e:
+        return jsonify({"error": "Server error", "details": str(e)}), 500
