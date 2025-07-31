@@ -22,8 +22,8 @@ class DonationSchema(SQLAlchemySchema):
 
     created_at=auto_field(dump_only=True)
 
-    home=fields.Nested("ChildrenHomeSchema", many=True, dump_only=True)
-    user=fields.Nested("UserSchema", many=True, dump_only=True)
+    home=fields.Nested("ChildrenHomeSchema", dump_only=True)
+    user=fields.Nested("UserSchema", dump_only=True)
 
 donation_schema=DonationSchema()
 donation_list_schema=DonationSchema(many=True)
