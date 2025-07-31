@@ -26,6 +26,7 @@ def create_donation():
 
         donation = donation_schema.load(data, session=db.session)
         donation.user_id=current_user_id
+        
         db.session.add(donation)
         db.session.commit()
         return jsonify(donation_schema.dump(donation)), 201

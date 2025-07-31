@@ -51,22 +51,31 @@ def get_all_reviews():
     except Exception as e:
         return jsonify({"error": "Server error", "details": str(e)}), 500
 
-@review_bp.route('/<int:review_id>', methods=['GET'])
+@review_bp.route('/home/<int:home_id>', methods=['GET'])
 @jwt_required()
-def get_review(review_id):
+def get_reviews_for_home(home_id):
     try:
-        review = Review.query.get_or_404(review_id)
-        new_review = {
-            "id": review.id,
-            "rating": review.rating,
-            "comment": review.comment,
-            "user_id": review.user_id,
-            "home_id": review.home_id,
-            "created_at": review.created_at.isoformat()
-        }
-        return jsonify(new_review), 200
+        reviews = Review.query.filter_by(home_id=home_id).all()
+
+        if not reviews:
+            return jsonify({"message": "No reviews found for this home."}), 404
+
+        results = [
+            {
+                "id": review.id,
+                "rating": review.rating,
+                "comment": review.comment,
+                "user_id": review.user_id,
+                "home_id": review.home_id,
+                "created_at": review.created_at.isoformat()
+            }
+            for review in reviews
+        ]
+
+        return jsonify(results), 200
     except Exception as e:
         return jsonify({"error": "Server error", "details": str(e)}), 500
+
 
 @review_bp.route('/<int:review_id>', methods=['PUT'])
 @jwt_required()
