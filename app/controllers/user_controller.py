@@ -64,3 +64,20 @@ def get_all_users():
         return jsonify(user_list_schema.dump(users)), 200
     except Exception as e:
         return jsonify({"error": "Server error", "details": str(e)}), 500
+    
+    
+@user_bp.route('/<int:user_id>', methods=['DELETE'])
+@jwt_required()
+def delete_user(user_id):
+    try:
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({"message": f"User with ID {user_id} deleted successfully."}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "Server error", "details": str(e)}), 500
