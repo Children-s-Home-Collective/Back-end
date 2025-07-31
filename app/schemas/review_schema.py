@@ -1,8 +1,8 @@
 from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
 from marshmallow import fields, validate
 from app.models.review import Review
-from app.schemas.User_Summary_Schema import UserSummarySchema
-from app.schemas.Children_Home_Summary_Schema import ChildrenHomeSummarySchema
+from app.schemas.User_Summar_Schema import UserSummarySchema
+from app.schemas.Childrens_Home_Summary_Schema import ChildrenHomeSummarySchema
 
 class ReviewSchema(SQLAlchemySchema):
     class Meta:
