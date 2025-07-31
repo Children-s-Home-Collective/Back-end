@@ -115,10 +115,7 @@ def update_volunteer(volunteer_id):
 @admin_required
 def delete_volunteer(volunteer_id):
     try:
-        current_user_id = get_jwt_identity()
         volunteer = Volunteer.query.get_or_404(volunteer_id)
-        if volunteer.user_id != current_user_id:
-            return jsonify({"error": "Unauthorized", "details": "You can only delete your own volunteer profile"}), 403
 
         db.session.delete(volunteer)
         db.session.commit()
