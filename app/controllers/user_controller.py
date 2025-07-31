@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required
 from app import db
 from app.models.user import User
-from app.schemas.user_schema import user_schema
+from app.schemas.user_schema import user_schema,user_list_schema
 from app.utils.constants import TRUSTED_ADMIN_DOMAINS
 from marshmallow import ValidationError
 
@@ -52,5 +52,15 @@ def get_user(user_id):
     try:
         user = User.query.get_or_404(user_id)
         return jsonify(user_schema.dump(user)), 200
+    except Exception as e:
+        return jsonify({"error": "Server error", "details": str(e)}), 500
+    
+
+@user_bp.route('/', methods=['GET'])
+@jwt_required()
+def get_all_users():
+    try:
+        users = User.query.all()
+        return jsonify(user_list_schema.dump(users)), 200
     except Exception as e:
         return jsonify({"error": "Server error", "details": str(e)}), 500
