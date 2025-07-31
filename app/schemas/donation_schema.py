@@ -1,6 +1,8 @@
 from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
 from marshmallow import fields
 from app.models.donation import Donation
+from app.schemas.Childrens_Home_Summary_Schema import ChildrenHomeSummarySchema
+from app.schemas.User_Summar_Schema import UserSummarySchema
 
 class DonationSchema(SQLAlchemySchema):
 
@@ -22,8 +24,8 @@ class DonationSchema(SQLAlchemySchema):
 
     created_at=auto_field(dump_only=True)
 
-    home=fields.Nested("ChildrenHomeSchema", dump_only=True)
-    user=fields.Nested("UserSchema", dump_only=True)
+    home=fields.Nested("ChildrenHomeSummarySchema", dump_only=True)
+    user=fields.Nested("UserSummarySchema", dump_only=True)
 
 donation_schema=DonationSchema()
 donation_list_schema=DonationSchema(many=True)
