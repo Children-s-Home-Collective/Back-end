@@ -17,7 +17,7 @@ class DonationSchema(SQLAlchemySchema):
 
     user_id =auto_field(dump_only=True)
 
-    home_id=auto_field(dump_only=True)
+    home_id=auto_field(required=True)
 
 
     created_at=auto_field(dump_only=True)

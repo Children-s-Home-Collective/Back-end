@@ -17,7 +17,7 @@ class ChildSchema(SQLAlchemySchema):
     last_name = auto_field(required=True)
     age = auto_field(required=True)
     gender=auto_field(required=True)
-    home_id = auto_field(dump_only=True)
+    home_id = auto_field(required=True)
 
 class PhotoSchema(SQLAlchemySchema):
     class Meta:

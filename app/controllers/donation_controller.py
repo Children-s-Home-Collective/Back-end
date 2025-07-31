@@ -18,13 +18,15 @@ def create_donation():
             return jsonify({"error": "No input data", "details": "Request body is empty"}), 400
 
         current_user_id = get_jwt_identity()
-        data['user_id'] = current_user_id
         data.pop('id', None)
+        data.pop('user_id',None)
 
         if not all([data.get('amount'), data.get('donation_type'), data.get('home_id')]):
             return jsonify({"error": "Missing required fields", "details": "Amount, donation_type, and home_id are required"}), 400
 
         donation = donation_schema.load(data, session=db.session)
+        donation.user_id=current_user_id
+        
         db.session.add(donation)
         db.session.commit()
         return jsonify(donation_schema.dump(donation)), 201
