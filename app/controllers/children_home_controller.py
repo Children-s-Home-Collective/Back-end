@@ -100,6 +100,7 @@ def get_home(id):
                         "gender": child.gender,
                         "created_at": child.created_at.isoformat()
                     } for child in home.children
+                    
                 ],
                 key=lambda x: x["id"]
             ),
@@ -139,7 +140,9 @@ def create_home():
         home = schema.load(data, session=db.session)
         db.session.add(home)
         db.session.commit()
-
+        for child in home.children:
+            child.home_id = home.id
+        db.session.commit()
         home_data = {
             "id": home.id,
             "name": home.name,
