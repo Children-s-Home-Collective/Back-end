@@ -1,8 +1,8 @@
 from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
 from marshmallow import fields
 from app.models.visit import Visit
-from app.schemas.children_home import ChildrenHomeSummarySchema  # Import the summary schemas
-from app.schemas.user import UserSummarySchema
+from app.schemas.Childrens_Home_Summary_Schema import ChildrenHomeSummarySchema  # Import the summary schemas
+from app.schemas.User_Summar_Schema import UserSummarySchema
 
 class VisitSchema(SQLAlchemySchema):
     class Meta:
