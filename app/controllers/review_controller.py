@@ -16,13 +16,14 @@ def create_review():
             return jsonify({"error": "No input data", "details": "Request body is empty"}), 400
 
         current_user_id = get_jwt_identity()
-        data['user_id'] = current_user_id
         data.pop('id', None)
 
         if not all([data.get('rating'), data.get('home_id')]):
             return jsonify({"error": "Missing required fields", "details": "Rating and home_id are required"}), 400
 
         review = review_schema.load(data, session=db.session)
+        review.user_id=current_user_id
+        
         db.session.add(review)
         db.session.commit()
         return jsonify(review_schema.dump(review)), 201
